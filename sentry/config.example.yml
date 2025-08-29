@@ -1,75 +1,72 @@
-# While a lot of configuration in Sentry can be changed via the UI, for all
-# new-style config (as of 8.0) you can also declare values here in this file
-# to enforce defaults or to ensure they cannot be changed via the UI. For more
-# information see the Sentry documentation.
+# 虽然 Sentry 的许多配置可以通过 UI 进行更改，但对于所有
+# 新式配置（从 8.0 开始），您也可以在此文件中声明值
+# 以强制执行默认值或确保它们无法通过 UI 更改。更多
+# 信息请参阅 Sentry 文档。
 
 ###############
-# Mail Server #
+# 邮件服务器 #
 ###############
 
-# mail.backend: 'smtp'  # Use dummy if you want to disable email entirely
+# mail.backend: 'smtp'  # 如果您想完全禁用电子邮件，请使用 dummy
 mail.host: 'smtp'
 # mail.port: 25
 # mail.username: ''
 # mail.password: ''
-# NOTE: `mail.use-tls` and `mail.use-ssl` are mutually exclusive and should not
-#        appear at the same time. Only uncomment one of them.
+# 注意：`mail.use-tls` 和 `mail.use-ssl` 是互斥的，不应该
+#        同时出现。只能取消注释其中一个。
 # mail.use-tls: false
 # mail.use-ssl: false
 
-# NOTE: The following 2 configs (mail.from and mail.list-namespace) are set
-#       through SENTRY_MAIL_HOST in sentry.conf.py so remove those first if
-#       you want your values in this file to be effective!
+# 注意：以下 2 个配置（mail.from 和 mail.list-namespace）是通过
+#       sentry.conf.py 中的 SENTRY_MAIL_HOST 设置的，如果您希望此文件中的值生效，
+#       请先删除那些配置！
 
-# The email address to send on behalf of
+# 代表发送的电子邮件地址
 # mail.from: 'root@localhost' or ...
 # mail.from: 'System Administrator <root@localhost>'
 
-# The mailing list namespace for emails sent by this Sentry server.
-# This should be a domain you own (often the same domain as the domain
-# part of the `mail.from` configuration parameter value) or `localhost`.
+# 此 Sentry 服务器发送的电子邮件的邮件列表命名空间。
+# 这应该是您拥有的域名（通常与 `mail.from` 配置参数值的域名部分相同）或 `localhost`。
 # mail.list-namespace: 'localhost'
 
-# If you'd like to configure email replies, enable this.
+# 如果您想配置电子邮件回复，请启用此选项。
 # mail.enable-replies: true
 
-# When email-replies are enabled, this value is used in the Reply-To header
+# 当启用电子邮件回复时，此值用于 Reply-To 标头
 # mail.reply-hostname: ''
 
-# If you're using mailgun for inbound mail, set your API key and configure a
-# route to forward to /api/hooks/mailgun/inbound/
-# Also don't forget to set `mail.enable-replies: true` above.
+# 如果您使用 mailgun 处理入站邮件，请设置您的 API 密钥并配置
+# 路由转发到 /api/hooks/mailgun/inbound/
+# 另外不要忘记在上面设置 `mail.enable-replies: true`。
 # mail.mailgun-api-key: ''
 
 ###################
-# System Settings #
+# 系统设置 #
 ###################
 
-# This is the main URL prefix where Sentry can be accessed.
-# Sentry will use this to create links to its different parts of the web UI.
-# This is most helpful if you are using an external reverse proxy.
+# 这是可以访问 Sentry 的主要 URL 前缀。
+# Sentry 将使用此前缀创建指向其 Web UI 不同部分的链接。
+# 如果您使用外部反向代理，这最有用。
 # system.url-prefix: https://example.sentry.com
 
-# Most of the time, this should NOT be changed. It's used for communication
-# between containers. `web` is the container's name, and `9000` is the
-# default port opened by the Sentry backend (this is NOT the public port).
+# 大多数情况下，这不应该被更改。它用于容器之间的通信。
+# `web` 是容器的名称，`9000` 是 Sentry 后端打开的默认端口（这不是公共端口）。
 #
-# If you want to change the publicly exposed domain or port, you should change
-# `system.url-prefix` above instead, along with `SENTRY_BIND` in `.env` file.
-# Also see https://develop.sentry.dev/self-hosted/#productionalizing.
+# 如果您想更改公开暴露的域名或端口，您应该更改上面的 `system.url-prefix`，
+# 以及 `.env` 文件中的 `SENTRY_BIND`。
+# 另请参阅 https://develop.sentry.dev/self-hosted/#productionalizing。
 system.internal-url-prefix: 'http://web:9000'
 
-# If this file ever becomes compromised, it's important to generate a new key.
-# Changing this value will result in all current sessions being invalidated.
-# A new key can be generated with `$ sentry config generate-secret-key`
+# 如果此文件曾经被泄露，生成新密钥很重要。
+# 更改此值将导致所有当前会话失效。
+# 可以使用 `$ sentry config generate-secret-key` 生成新密钥
 #
-# If you are using SENTRY_SYSTEM_SECRET_KEY that is being set on your `.env` or `.env.custom` file,
-# you should remove this line below as it won't be used anyway.
+# 如果您在 `.env` 或 `.env.custom` 文件中使用 SENTRY_SYSTEM_SECRET_KEY，
+# 您应该删除下面这行，因为它不会被使用。
 system.secret-key: '!!changeme!!'
 
-# The ``redis.clusters`` setting is used, unsurprisingly, to configure Redis
-# clusters. These clusters can be then referred to by name when configuring
-# backends such as the cache, digests, or TSDB backend.
+# ``redis.clusters`` 设置用于配置 Redis 集群，这并不奇怪。
+# 在配置缓存、摘要或 TSDB 后端等后端时，可以按名称引用这些集群。
 # redis.clusters:
 #   default:
 #     hosts:
@@ -78,11 +75,11 @@ system.secret-key: '!!changeme!!'
 #         port: 6379
 
 ################
-# File storage #
+# 文件存储 #
 ################
 
-# Uploaded media uses these `filestore` settings. The available
-# backends are either `filesystem` or `s3`.
+# 上传的媒体使用这些 `filestore` 设置。可用的
+# 后端是 `filesystem` 或 `s3`。
 
 filestore.backend: 'filesystem'
 filestore.options:
@@ -103,15 +100,15 @@ symbolicator.options:
 transaction-events.force-disable-internal-project: true
 
 ######################
-# GitHub Integration #
+# GitHub 集成 #
 ######################
 
-# Refer to https://develop.sentry.dev/integrations/github/ for setup instructions.
+# 有关设置说明，请参阅 https://develop.sentry.dev/integrations/github/。
 
 # github-login.extended-permissions: ['repo']
 # github-app.id: GITHUB_APP_ID
 # github-app.name: 'GITHUB_APP_NAME'
-# github-app.webhook-secret: 'GITHUB_WEBHOOK_SECRET' # Use only if configured in GitHub
+# github-app.webhook-secret: 'GITHUB_WEBHOOK_SECRET' # 仅在 GitHub 中配置时使用
 # github-app.client-id: 'GITHUB_CLIENT_ID'
 # github-app.client-secret: 'GITHUB_CLIENT_SECRET'
 # github-app.private-key: |
@@ -124,23 +121,23 @@ transaction-events.force-disable-internal-project: true
 #   -----END RSA PRIVATE KEY-----
 
 #####################
-# Slack Integration #
+# Slack 集成 #
 #####################
 
-# Refer to https://develop.sentry.dev/integrations/slack/ for setup instructions.
+# 有关设置说明，请参阅 https://develop.sentry.dev/integrations/slack/。
 
 # slack.client-id: <'client id'>
 # slack.client-secret: <client secret>
 # slack.signing-secret: <signing secret>
-## If legacy-app is True use verification-token instead of signing-secret
+## 如果 legacy-app 为 True，请使用 verification-token 而不是 signing-secret
 # slack.verification-token: <verification token>
 
 
 #######################
-# Discord Integration #
+# Discord 集成 #
 #######################
 
-# Refer to https://develop.sentry.dev/integrations/discord/
+# 请参阅 https://develop.sentry.dev/integrations/discord/
 
 # discord.application-id: "<application id>"
 # discord.public-key: "<public key>"
@@ -148,10 +145,10 @@ transaction-events.force-disable-internal-project: true
 # discord.bot-token: "<bot token>"
 
 ###############
-# Google Auth #
+# Google 认证 #
 ###############
 
-# Refer to https://develop.sentry.dev/self-hosted/sso/#google-auth
+# 请参阅 https://develop.sentry.dev/self-hosted/sso/#google-auth
 
 # auth-google.client-id: "<client id>"
 # auth-google.client-secret: "<client secret>"
